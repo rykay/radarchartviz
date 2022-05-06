@@ -1,0 +1,113 @@
+<html>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<body>
+<script>
+    var margin = {top: 40, right: 120, bottom: 40, left: 100};
+    var width = 800 - margin.right - margin.left,
+        height = 800 - margin.top - margin.bottom;
+    //code goes here!
+    let data = [
+        {"name": "Nadal", "Roland Garros":13, "Australian Open": 2, "Wimbledon": 1, "US Open": 3},
+        {"name": "Novak", "Roland Garros":2, "Australian Open": 9, "Wimbledon": 6, "US Open": 3},
+        {"name": "Federer", "Roland Garros": 1, "Australian Open": 6, "Wimbledon": 8, "US Open": 5},
+
+    ];
+    let features = ["Roland Garros","Australian Open","Wimbledon","US Open"];
+
+    let svg = d3.select("body").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    let radialScale = d3.scaleLinear()
+        .domain([0, 13])
+        .range([0,250])
+
+    let ticks = [3, 6, 9, 12, 15]
+
+    ticks.forEach(t =>
+        svg.append("circle")
+            .attr("cx", 300)
+            .attr("cy", 300)
+            .attr("fill", "none")
+            .attr("stroke", "gray")
+            .attr("r", radialScale(t))
+    );
+
+    ticks.forEach(t =>
+        svg.append("text")
+            .attr("x", 305)
+            .attr("y", 300 - radialScale(t))
+            .text(t.toString())
+    );
+
+    function angleToCoordinate(angle, value){
+        let x = Math.cos(angle) * radialScale(value);
+        let y = Math.sin(angle) * radialScale(value);
+        return {"x": 300 + x, "y": 300 - y};
+    }
+
+    for (var i = 0; i < features.length; i++) {
+        let ft_name = features[i];
+        let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+        let line_coordinate = angleToCoordinate(angle, 15);
+        let label_coordinate = angleToCoordinate(angle, 16);
+
+        //draw axis line
+        svg.append("line")
+            .attr("x1", 300)
+            .attr("y1", 300)
+            .attr("x2", line_coordinate.x)
+            .attr("y2", line_coordinate.y)
+            .attr("stroke","black");
+
+        console.log(line_coordinate.x, line_coordinate.y)
+
+        if(ft_name == 'Australian Open'){
+            svg.append("text")
+                .attr("x", label_coordinate.x - 90)
+                .attr("y", label_coordinate.y)
+                .text(ft_name);
+        }
+        else{
+            svg.append("text")
+                .attr("x", label_coordinate.x)
+                .attr("y", label_coordinate.y)
+                .text(ft_name);
+        }
+    }
+
+    let line = d3.line()
+        .x(d => d.x)
+        .y(d => d.y);
+    let colors = ["darkorange", "#6CB4EE", "green"];
+
+    function getPathCoordinates(data_point){
+        let coordinates = [];
+        for (var i = 0; i < features.length; i++){
+            let ft_name = features[i];
+            let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+            coordinates.push(angleToCoordinate(angle, data_point[ft_name]));
+        }
+        return coordinates;
+    }
+    for (var i = 0; i < data.length; i ++){
+        let d = data[i];
+        let color = colors[i];
+        let coordinates = getPathCoordinates(d);
+
+        //draw the path element
+        svg.append("path")
+            .datum(coordinates)
+            .attr("d",line)
+            .attr("stroke-width", 3)
+            .attr("stroke", color)
+            .attr("fill", color)
+            .attr("stroke-opacity", 1)
+            .attr("opacity", 0.5);
+    }
+
+</script>
+</body>
+</html>
