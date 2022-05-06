@@ -1,5 +1,6 @@
 <html>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" integrity="sha512-wNH6xsp2n8CfB91nrBtfc4sfLwYPBMjSWVUwQOp60AYYXH6i8yCwuKFZ4rgK2i6pQek/b+bSyR7b01/922IBzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <body>
 <script>
     var margin = {top: 40, right: 120, bottom: 40, left: 100};
@@ -81,7 +82,7 @@
     let line = d3.line()
         .x(d => d.x)
         .y(d => d.y);
-    let colors = ["darkorange", "#6CB4EE", "green"];
+    let colors = ["rgb(255, 127, 14)", "rgb(44,160,44)", "rgb(31,119,180)"];
 
     function getPathCoordinates(data_point){
         let coordinates = [];
@@ -105,8 +106,36 @@
             .attr("stroke", color)
             .attr("fill", color)
             .attr("stroke-opacity", 1)
-            .attr("opacity", 0.5);
+            .attr("opacity", 0.6);
     }
+
+    let keys = ['Nadal', 'Federer', 'Novak']
+    var ordinal = d3.scaleOrdinal()
+    .domain(keys)
+    .range(["rgb(255, 127, 14)", "rgb(44,160,44)", "rgb(31,119,180)"])
+
+    svg.selectAll("mydots")
+        .data(keys)
+        .enter()
+        .append("circle")
+        .attr("cx", -30)
+        .attr("cy", function(d,i){ return 0 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function(d){ return ordinal(d)})
+
+    svg.selectAll("mylabels")
+        .data(keys)
+        .enter()
+        .append("text")
+        .attr("x", -10)
+        .attr("y", function(d,i){ return 0 + i*25}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", function(d){ return ordinal(d)})
+        .text(function(d){ return d})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+
+
+
 
 </script>
 </body>
