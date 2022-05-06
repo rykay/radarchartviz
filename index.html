@@ -1,3 +1,10 @@
+<style>
+
+    text{
+        fill: white;
+    }
+
+</style>
 <html>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.25.6/d3-legend.min.js" integrity="sha512-wNH6xsp2n8CfB91nrBtfc4sfLwYPBMjSWVUwQOp60AYYXH6i8yCwuKFZ4rgK2i6pQek/b+bSyR7b01/922IBzQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -32,7 +39,7 @@
             .attr("cx", 300)
             .attr("cy", 300)
             .attr("fill", "none")
-            .attr("stroke", "gray")
+            .attr("stroke", "white")
             .attr("r", radialScale(t))
     );
 
@@ -61,7 +68,7 @@
             .attr("y1", 300)
             .attr("x2", line_coordinate.x)
             .attr("y2", line_coordinate.y)
-            .attr("stroke","black");
+            .attr("stroke","white");
 
         console.log(line_coordinate.x, line_coordinate.y)
 
@@ -106,7 +113,7 @@
             .attr("stroke", color)
             .attr("fill", color)
             .attr("stroke-opacity", 1)
-            .attr("opacity", 0.6);
+            .attr("opacity", 0.6)
     }
 
     let keys = ['Nadal', 'Federer', 'Novak']
