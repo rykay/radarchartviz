@@ -1,9 +1,8 @@
 <style>
 
-    text{
+    text {
         fill: white;
     }
-
 </style>
 <html>
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -16,8 +15,8 @@
     //code goes here!
     let data = [
         {"name": "Nadal", "Roland Garros":13, "Australian Open": 2, "Wimbledon": 1, "US Open": 3},
-        {"name": "Novak", "Roland Garros":2, "Australian Open": 9, "Wimbledon": 6, "US Open": 3},
         {"name": "Federer", "Roland Garros": 1, "Australian Open": 6, "Wimbledon": 8, "US Open": 5},
+        {"name": "Novak", "Roland Garros":2, "Australian Open": 9, "Wimbledon": 6, "US Open": 3}
 
     ];
     let features = ["Roland Garros","Australian Open","Wimbledon","US Open"];
@@ -89,6 +88,8 @@
     let line = d3.line()
         .x(d => d.x)
         .y(d => d.y);
+
+
     let colors = ["rgb(255, 127, 14)", "rgb(44,160,44)", "rgb(31,119,180)"];
 
     function getPathCoordinates(data_point){
@@ -116,7 +117,7 @@
             .attr("opacity", 0.6)
     }
 
-    let keys = ['Nadal', 'Novak', 'Federer']
+    let keys = ['Nadal', 'Federer', 'Novak']
     var ordinal = d3.scaleOrdinal()
     .domain(keys)
     .range(["rgb(255, 127, 14)", "rgb(44,160,44)", "rgb(31,119,180)"])
